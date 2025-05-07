@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { WordsModule } from './words/words.module';
+import { UserWordModule } from './user-word/user-word.module';
 
 @Module({
   imports: [
@@ -18,9 +19,11 @@ import { WordsModule } from './words/words.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    UserWordModule,
     UsersModule,
     AuthModule,
     WordsModule,
+    UserWordModule,
   ],
 })
 export class AppModule {}
