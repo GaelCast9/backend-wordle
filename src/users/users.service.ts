@@ -17,24 +17,34 @@ export class UsersService {
     return this.userRepository.save(newUser);
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(): Promise<Omit<User, 'password'>[]> {
+    const users = await this.userRepository.find();
+    return users.map(({ password, ...user }) => user);
   }
+  
 
-  async findOne(id: number): Promise<User | null> {
-    return this.userRepository.findOne({ where: { id } });
+  async findOne(id: number): Promise<Omit<User, 'password'> | null> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) return null;
+  
+    // Excluir manualmente el campo password
+    const { password, ...safeUser } = user;
+    return safeUser;
   }
+  
 
   async findByUsername(username: string): Promise<User | null> {
     return this.userRepository.findOne({ where: { username } });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User | null> {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<Omit<User, 'password'> | null> {
     await this.userRepository.update(id, updateUserDto);
-    return this.findOne(id); // Esto puede devolver null, así que el tipo debe reflejarlo
-  }  
+    return this.findOne(id);
+  }
+   
 
   async remove(id: number): Promise<void> {
     await this.userRepository.delete(id);
   }
+  
 }
