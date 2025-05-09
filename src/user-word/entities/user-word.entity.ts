@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Word } from 'src/words/entities/word.entity';
+import { Column } from 'typeorm';
+
 
 
 @Entity()
@@ -16,4 +18,7 @@ export class UserWord {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column({ default: false })
+  isCorrect: boolean;
 }
