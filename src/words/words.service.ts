@@ -34,7 +34,6 @@ export class WordsService {
     await this.wordRepository.delete(id);
   }
 
-  // 🧠 Método adicional: obtener una palabra aleatoria
   async getRandomWord(): Promise<Word | null> {
     const count = await this.wordRepository.count();
     if (count === 0) return null;
@@ -43,4 +42,22 @@ export class WordsService {
     const [randomWord] = await this.wordRepository.find({ skip: randomIndex, take: 1 });
     return randomWord;
   }
+
+  async getMostGuessedWords(): Promise<{ word: string; count: number }[]> {
+    const result = await this.wordRepository
+      .createQueryBuilder('word')
+      .leftJoin('word.userWords', 'userWord')
+      .where('userWord.isCorrect = :correct', { correct: true })
+      .select('word.word', 'word')
+      .addSelect('COUNT(*)', 'count')
+      .groupBy('word.word')
+      .orderBy('count', 'DESC')
+      .limit(10)
+      .getRawMany();
+  
+    return result;
+  }
+  
+  
+
 }

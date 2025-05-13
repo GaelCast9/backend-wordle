@@ -6,9 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { WordsModule } from './words/words.module';
 import { UserWordModule } from './user-word/user-word.module';
 import { GameModule } from './game/game.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(), // Para el cron job
     ConfigModule.forRoot({ isGlobal: true }), // Config primero para que esté disponible para todos
     TypeOrmModule.forRoot({
       type: 'postgres',

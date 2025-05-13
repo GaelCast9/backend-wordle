@@ -20,9 +20,18 @@ export class WordsController {
     return this.wordsService.findAll();
   }
 
+  @Get('most-guessed') //  Este va antes del ":id"
+  getMostGuessedWords() {
+    return this.wordsService.getMostGuessedWords();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.wordsService.findOne(+id);
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      throw new Error('El ID debe ser un número válido');
+    }
+    return this.wordsService.findOne(parsedId);
   }
 
   @Patch(':id')
@@ -35,3 +44,4 @@ export class WordsController {
     return this.wordsService.remove(+id);
   }
 }
+
