@@ -7,7 +7,6 @@ import { Word } from 'src/words/entities/word.entity';
 import { UserWord } from 'src/user-word/entities/user-word.entity';
 import { UserWordModule } from 'src/user-word/user-word.module'; 
 import { Attempt } from './entities/attempt.entity';
-import { WordRotationService } from './word-rotation.service';
 
 
 
@@ -17,6 +16,6 @@ import { WordRotationService } from './word-rotation.service';
     UserWordModule, 
   ],
   controllers: [GameController],
-  providers: [GameService, WordRotationService],
+  providers: [GameService],
 })
 export class GameModule {}

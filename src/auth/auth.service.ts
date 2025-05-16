@@ -1,7 +1,9 @@
+// src/auth/auth.service.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +28,7 @@ export class AuthService {
     };
   }
 
-  async register(userData: any) {
+  async register(userData: RegisterDto) {
     const existing = await this.usersService.findByUsername(userData.username);
     if (existing) {
       throw new UnauthorizedException('El usuario ya existe');
